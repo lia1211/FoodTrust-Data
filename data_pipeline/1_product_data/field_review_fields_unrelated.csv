@@ -1,0 +1,55 @@
+column_name,parquet_type,purpose,needed_in_db,notes
+complete,int32,"OFF's own flag for whether this record is ""complete""",Maybe,"Could be a data-quality signal, not currently used"
+completeness,float,OFF's own completeness score (0-1),Maybe,"Same as above - data-quality signal, optional"
+data_quality_errors_tags,list<string>,Data-quality error flags detected by OFF itself,Maybe,Could help build our own missing outlier/range-check system instead of starting from scratch - worth evaluating
+data_quality_info_tags,list<string>,Data-quality info tags given by OFF itself,Maybe,Same reasoning as data_quality_errors_tags
+data_quality_warnings_tags,list<string>,Data-quality warning tags given by OFF itself,Maybe,Same reasoning as data_quality_errors_tags
+states_tags,list<string>,"OFF's own workflow/completion-state tags (e.g. ""nutrition facts completed"")",Maybe,"Could be a genuinely useful data-quality signal, same category as the data_quality_*_tags fields above"
+additives_n,int32,Number of detected food additives,No,Not part of 8 core nutrients or claim scope
+categories_properties,struct,Cross-reference codes to Ciqual/Agribalyse (French databases),No,Not relevant - project uses Australian Food Composition Database
+checkers_tags,list<string>,Usernames of OFF contributors who reviewed this record,No,Community moderation metadata only
+ciqual_food_name_tags,list<string>,Mapping to the French Ciqual food composition database,No,Not relevant to FSANZ/WHO NPPM work
+correctors_tags,list<string>,Usernames of OFF contributors who corrected this record,No,Community moderation metadata only
+creator,string,OFF username who created this record,No,Community metadata only
+data_sources_tags,list<string>,Which OFF import channel this record came through,No,"Metadata about the OFF entry itself, not the product"
+editors,list<string>,OFF usernames who edited this record,No,Community moderation metadata only
+entry_dates_tags,list<string>,Creation date in tag format,No,Redundant with created_t
+environmental_score_data,string,Raw calculation data behind the Eco-Score,No,Environmental sustainability - out of project scope (nutrition/claims only)
+environmental_score_grade,string,Eco-Score letter grade,No,Out of scope
+environmental_score_score,int32,Eco-Score numeric score,No,Out of scope
+environmental_score_tags,list<string>,Eco-Score related tags,No,Out of scope
+informers_tags,list<string>,OFF contributor tags,No,Community moderation metadata only
+ingredients,string,Raw ingredients string (different from ingredients_text),No,"Redundant with ingredients_text, which we already keep"
+ingredients_analysis_tags,list<string>,OFF's own vegetarian/vegan/palm-oil-free analysis of the ingredient list,No,"Out of current claim scope (FSANZ nutrition/health claims only, not vegan/palm-oil claims)"
+ingredients_from_palm_oil_n,int32,Number of ingredients containing palm oil,No,Out of scope
+ingredients_original_tags,list<string>,Untranslated raw ingredient tags,No,Redundant with ingredients_tags
+ingredients_percent_analysis,int32,Internal flag: whether ingredient percentages can be analyzed,No,Technical metadata only
+ingredients_with_specified_percent_n,int32,Count-type metadata,No,Technical metadata only
+ingredients_with_unspecified_percent_n,int32,Count-type metadata,No,Technical metadata only
+ingredients_without_ciqual_codes,list<string>,Ciqual-related list,No,Not relevant (French database)
+ingredients_without_ciqual_codes_n,int32,Ciqual-related count,No,Not relevant (French database)
+known_ingredients_n,int32,Count-type metadata,No,Technical metadata only
+last_edit_dates_tags,list<string>,Edit date in tag format,No,Redundant with last_modified_t
+last_editor,string,OFF username who last edited this record,No,Community metadata only
+last_modified_by,string,Who/what last modified this record,No,Community metadata only
+main_countries_tags,list<string>,Main countries of sale,No,Redundant with countries_tags
+misc_tags,list<string>,Miscellaneous catch-all tags,No,Too vague to be useful
+new_additives_n,int32,A rarely-used variant of the additive count,No,"Almost never populated (0.0% coverage, see EDA)"
+packaging,string,Packaging summary string,No,Redundant/out of scope
+packaging_recycling_tags,list<string>,Recycling instructions,No,Out of scope (not nutrition-related)
+packaging_shapes_tags,list<string>,Packaging shape tags,No,Out of scope
+packaging_tags,list<string>,Structured packaging-material tags,No,Out of scope unless a future sustainability epic is added
+packaging_text,string,Free-text packaging description,No,Out of scope
+packagings,list<struct>,Structured list of packaging components,No,Out of scope
+packagings_complete,bool,Whether packaging information is complete,No,Metadata only
+photographers,list<string>,OFF usernames who uploaded photos,No,Community moderation metadata only
+popularity_key,int64,OFF's internal popularity-ranking metric,No,"Could support a ""sort by popularity"" search feature later, not required now"
+popularity_tags,list<string>,Tag version of popularity_key,No,Redundant
+purchase_places_tags,list<string>,Where the product can be purchased,No,"Supply-chain detail, out of scope"
+rev,int32,OFF's internal version revision number,No,"Technical versioning metadata, not product content"
+scans_n,int32,Total number of times this barcode was scanned in the OFF app,No,"Could be a popularity/community-verification signal, not required"
+schema_version,int32,Schema version number of the Parquet file,No,"Internal file-format metadata, not product content"
+stores,string,Free-text sales channel,No,Same as above
+stores_tags,list<string>,Structured sales-channel tags,No,"Supply-chain detail, out of scope"
+unique_scans_n,int32,De-duplicated user scan count (distinct from scans_n's total count),No,Redundant with scans_n if that's kept at all
+unknown_ingredients_n,int32,Number of ingredients that couldn't be parsed,No,Technical metadata only

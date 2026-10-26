@@ -1,0 +1,22 @@
+column_name,parquet_type,purpose,needed_in_db,notes
+categories_tags,list<string>,Structured OFF category taxonomy tags,Yes - already in products.db,Essential: drives baby-foods filter + WHO NPPM category mapping
+food_groups_tags,list<string>,OFF's own food-grouping system (a different system from the WHO NPPM classification),Yes - new,"确认保留:作为补充信号,帮助降低product_nppm_category_mapping.db里42%未分类的比例,值得测试"
+minerals_tags,list<string>,Which mineral data is available for this product,Yes - new,确认保留:关联未来矿物质claim验证需求(claim_rules.db里93/152条目前因缺数据无法验证)
+nova_group,int32,NOVA food-processing classification (levels 1-4),Yes - already in products.db,Kept from original build
+nucleotides_tags,list<string>,Which nucleotide data is available,Yes - new,"确认保留:为未来奶粉相关功能iteration占位,目前claim_rules.db里暂无核苷酸相关条款作为具体依据,属于前瞻性保留"
+nutriments,"list<struct<name,value,100g,serving,unit,...>>","The actual nutrient value data - a ""name-value"" list, not fixed columns",Yes - already in products.db (source),Essential: this is where all 8 core nutrient columns are extracted from
+nutriscore_grade,string,Nutri-Score letter grade,Yes - already in products.db,Kept from original build
+nutrition_data_per,string,Whether nutrient values are declared per 100g or per serving,Yes - new,"确认保留:用于校验从nutriments取的是每100g那一档而不是每份,和单位标准化(sodium_source那类机制)是互补但不同的问题"
+serving_quantity,string,Structured per-serving quantity value,"Yes - new, requested by IT",Confirmed present in Parquet at 31.9% coverage (see EDA) - complements the free-text serving_size already kept
+serving_size,string,Serving size (free text),Yes - already in products.db,Kept from original build
+vitamins_tags,list<string>,Which vitamin data is available for this product,Yes - new,"确认保留:同minerals_tags,关联未来维生素claim验证需求"
+no_nutrition_data,bool,"Flag: product explicitly declared as having ""no nutrition panel""",Maybe,"Could improve our ""why is this nutrient missing"" diagnostics (distinguishes ""not measured"" from ""genuinely has no nutrition panel"", e.g. plain water)"
+nutrient_levels_tags,list<string>,"OFF's own qualitative traffic-light tags (e.g. ""high sugar"")",Maybe,"Could be a sanity-check cross-reference, not authoritative - the app uses WHO NPPM / FSANZ thresholds instead"
+nutriscore_score,int32,The underlying numeric score behind Nutri-Score,Maybe,"Grade already covers display use case, score is optional extra detail"
+unknown_nutrients_tags,list<string>,Nutrient names in the nutriments list that OFF itself doesn't recognize,Maybe,Could be a useful QA check on our own nutrient-extraction logic (catches nutrients we might be matching by the wrong name)
+categories,string,Unstructured raw category text,No,"categories_tags是我们实际用来做分类匹配的结构化版本,这个自由文本只是同样内容的人类可读版,内部逻辑用不上"
+compared_to_category,string,Which OFF category this product's nutrient values are benchmarked against,No,Different comparison system than WHO NPPM; would be confusing to mix in
+nova_groups,string,String version of nova_group,No,Redundant
+nova_groups_tags,list<string>,Tag version of nova_group,No,Redundant
+with_non_nutritive_sweeteners,int32,Flag: contains non-nutritive sweeteners,No,"Almost never populated (0.7% coverage, see EDA)"
+with_sweeteners,int32,Flag: contains sweeteners,No,"Almost never populated (0.1% coverage, see EDA)"

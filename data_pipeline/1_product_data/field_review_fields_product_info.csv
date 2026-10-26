@@ -1,0 +1,37 @@
+column_name,parquet_type,purpose,needed_in_db,notes
+additives_tags,list<string>,Structured additive tags (E-numbers etc.),Yes - already in products.db,Kept for ingredient transparency
+allergens_tags,list<string>,"Structured ""contains"" allergen tags",Yes - already in products.db,Safety-relevant for parents
+brands,string,Brand name (free text),Yes - already in products.db,Core identity field
+brands_tags,list<string>,"Normalized/tag version of the brand name (lowercase, extra spaces stripped) for case- and format-insensitive search/filtering",Yes - new,"确认保留:品牌搜索/筛选如果要做到不区分大小写、去重(比如""Gerber""/""GERBER""当成一个品牌),要用这个而不是自由文本的brands"
+code,string,Barcode,Yes - already in products.db,Primary key / join key
+countries_tags,list<string>,Countries where the product is sold,"Yes - new, requested by IT",Confirmed present in Parquet at 99.8% coverage (see EDA)
+generic_name,"list<struct<lang,text>>",Generic/common name (distinct from the branded product_name),Yes - new,"确认保留:作为product_name缺失时的兜底显示名,避免产品名一栏空白"
+images,"list<struct<key,imgid,rev,sizes,uploaded_t,uploader>>","Full image metadata, including a key field identifying which image is the front/ingredients/nutrition-panel photo","Yes - new, needed to fix image logic","Directly answers the image_url gap found in EDA section 6: key=""front_en"" etc. tells us which image is the front image, instead of guessing from imgid"
+ingredients_tags,list<string>,Structured ingredient tags,Yes - already in products.db,Kept for ingredient display
+ingredients_text,"list<struct<lang,text>>",Full ingredient list text (multi-language),Yes - already in products.db,Kept for ingredient display
+labels_tags,list<string>,Structured label/claim tags,Yes - already in products.db,"Essential: the main candidate source for Epic 2.4/Epic 4 claims (see EDA on claim-tag coverage, 17.3%)"
+lang,string,Primary language of this record,Yes - new,"Needed to correctly pick which product_name/ingredients_text language entry counts as ""the"" name, instead of an arbitrary pick"
+last_modified_t,int64,Last-modified timestamp,"Yes - new, requested by IT","这个就是product detail页面""Last updated""要显示的字段,目前显示Unavailable就是因为没抽取这个——Parquet里确认约100%覆盖率(见EDA)"
+link,string,Manufacturer's official product webpage link,Yes - new,"确认保留:产品详情页展示""查看官网""外链用"
+manufacturing_places_tags,list<string>,Structured manufacturing-place tags,Yes - new,"确认保留:用于product detail页面展示产地,信息比cities_tags更完整,已决定用这个替代cities_tags"
+obsolete,bool,Flag: product discontinued/no longer sold,"Yes - filter only, not a display column","不会显示在任何页面上,但要在products.db构建的时候用它把停产产品直接排除掉,不能让用户查到已经买不到的产品"
+product_name,"list<struct<lang,text>>",Product display name (multi-language),Yes - already in products.db (source),Essential: flattened into the name column
+product_quantity,string,Structured package quantity value,"Yes - new, requested by IT",Confirmed present in Parquet at 30.5% coverage (see EDA) - complements the free-text quantity already kept
+product_quantity_unit,string,Unit for product_quantity (e.g. g/ml),"Yes - new, requested by IT",Confirmed present in Parquet (see EDA)
+quantity,string,"Package size (free text, e.g. ""42 g"")",Yes - already in products.db,Kept from original build
+created_t,int64,Timestamp of when this record was first created in OFF,Maybe,"注意:主页要显示的""Last updated""对应的是last_modified_t(已经确认要加),不是这个created_t——created_t是""创建时间""不是""修改时间"",两回事。如果只是想显示更新时间,不需要这个字段;只有想额外显示""这条记录最早是什么时候录入的""才用得上"
+ingredients_n,int32,Number of ingredients,Maybe,"可以在product detail页面简单显示""含X种配料"""
+labels,string,Free-text labels (unstructured),Maybe,Low priority - labels_tags is the structured version we rely on
+languages_tags,list<string>,All languages appearing on the packaging,Maybe,"Supplementary only, not required"
+last_image_t,int64,Timestamp of the most recent image upload,Maybe,"Could help pick the freshest image as a tiebreaker, low priority"
+manufacturing_places,string,Free-text manufacturing place,Maybe,同上
+max_imgid,int32,The highest image ID number for this product,Maybe,"Current image_url logic (wrongly) relies on this; once images.key is used properly this becomes a fallback only, not primary"
+origins,string,Free-text origin,Maybe,同上
+origins_tags,list<string>,Structured origin tags,Maybe,"和cities_tags/manufacturing_places同一类,通常是国家级产地信息"
+owner,string,Manufacturer/brand officially maintaining this record,Maybe,"Only 2.4% coverage - same trust-signal reasoning as owner_fields, but very sparse"
+owner_fields,list<string>,Which fields the manufacturer explicitly provided/locked,Maybe,"Could support the ""data source / trust level"" field IT asked for (distinguishing producer-declared vs. community-contributed values)"
+traces_tags,list<string>,"""May contain traces of"" allergen info (distinct from allergens_tags' ""contains"")",Maybe,"Safety-relevant for parents, same category as allergens_tags which we already keep - worth adding alongside it"
+cities_tags,list<string>,Manufacturing city tags,No,"已讨论决定不保留:只到城市级,信息比manufacturing_places_tags窄,产地展示改用manufacturing_places_tags,不需要两个字段都留着造成冗余"
+emb_codes,string,Free-text version of emb_codes,No,"同上,不建议展示"
+emb_codes_tags,list<string>,Factory traceability codes (EU-specific),No,"这是欧盟工厂追溯编码,对澳洲家长用户没有可读意义,不建议放进product detail页,归到""和展示无关""更合适"
+last_updated_t,int64,A field nearly identical to last_modified_t,No,"看起来和last_modified_t是重复字段,用last_modified_t(IT明确要的那个)就够了,加之前最好确认两者是不是真的完全一样"

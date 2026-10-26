@@ -1,0 +1,44 @@
+{
+  "sources": [
+    {
+      "id": "fsanz-schedule-4-2026",
+      "name": "FSANZ Schedule 4 — Nutrition, health and related claims",
+      "organisation": "Food Standards Australia New Zealand",
+      "official_url": "https://www.legislation.gov.au/F2015L00474/latest/text",
+      "document_type": "claim_rule",
+      "file": "fsanz_schedule_4_2026.pdf"
+    },
+    {
+      "id": "who-nppm-2022",
+      "name": "WHO Nutrient and Promotion Profile Model 2022",
+      "organisation": "World Health Organization Regional Office for Europe",
+      "official_url": "https://www.who.int/europe/publications/i/item/WHO-EURO-2022-6681-46447-67287",
+      "document_type": "nutrition_reference",
+      "file": "who_nppm_2022.pdf"
+    },
+    {
+      "id": "nhmrc-infant-feeding-summary",
+      "name": "NHMRC Infant Feeding Guidelines — Summary",
+      "organisation": "National Health and Medical Research Council",
+      "official_url": "https://www.eatforhealth.gov.au/sites/default/files/files/the_guidelines/n56b_infant_feeding_summary_130808.pdf",
+      "document_type": "nutrition_guidance",
+      "file": "nhmrc_infant_feeding_summary.pdf"
+    },
+    {
+      "id": "who-complementary-feeding-2023",
+      "name": "WHO complementary feeding guideline 6–23 months (2023)",
+      "organisation": "World Health Organization",
+      "official_url": "https://www.who.int/publications/i/item/9789240081864",
+      "document_type": "nutrition_guidance",
+      "file": "who_complementary_feeding_2023.pdf"
+    },
+    {
+      "id": "anz-nrv-2006",
+      "name": "Nutrient Reference Values for Australia and New Zealand",
+      "organisation": "National Health and Medical Research Council",
+      "official_url": "https://www.nhmrc.gov.au/sites/default/files/documents/attachments/nutrient-reference-values-aus-nz-app-2006.pdf",
+      "document_type": "nutrition_guidance",
+      "file": "anz_nrv_2006.pdf"
+    }
+  ]
+}
