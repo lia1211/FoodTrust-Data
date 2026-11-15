@@ -1,4 +1,8 @@
-# FoodTrust — Nutrition & Health Claim Verification
+# FoodTrust-Data
+
+**Data pipeline & SQLite databases behind FoodTrust, a nutrition-claim checker for baby food**
+
+*Monash University · FIT5120 Industry Experience (team capstone) · 2026*
 
 FoodTrust helps Australian parents check whether a nutrition or health claim on a
 baby/toddler food package (e.g. *"no added sugar"*) actually matches the product's
